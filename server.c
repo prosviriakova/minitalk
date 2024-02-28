@@ -6,7 +6,7 @@
 /*   By: oprosvir <oprosvir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 23:02:16 by oprosvir          #+#    #+#             */
-/*   Updated: 2024/02/27 23:02:16 by oprosvir         ###   ########.fr       */
+/*   Updated: 2024/02/29 00:31:24 by oprosvir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,32 @@
 #include <unistd.h>
 
 void handle_signal(int signal) {
-    // Выводим сообщение при получении сигнала
-    write(1, "Signal received\n", 16);
+    static int bit_count = 0;
+    static char current_char = 0;
+
+    if (signal == SIGUSR1) {
+        current_char <<= 1;
+    } else if (signal == SIGUSR2) {
+        current_char = (current_char << 1) | 1;
+    }
+
+    bit_count++;
+    if (bit_count == 8) {
+        write(1, &current_char, 1);
+        bit_count = 0;
+        current_char = 0;
+    }
 }
 
 int main() {
-    // Выводим PID текущего процесса
-    printf("Server PID: %d\n", getpid());
+    printf("Welcome To Olga's Server!\n");
+    printf("Server PID: %d\n", getpid());    
 
-    // Настраиваем обработчик сигналов
-    signal(SIGUSR1, handle_signal);
-
-    // Бесконечный цикл, чтобы сервер продолжал работать
     while (1) {
+        signal(SIGUSR1, handle_signal);
+        signal(SIGUSR2, handle_signal);
         pause(); // Ожидаем сигнал
     }
 
-    return 0;
+    return (0);
 }
