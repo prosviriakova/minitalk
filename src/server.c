@@ -6,19 +6,22 @@
 /*   By: oprosvir <oprosvir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 23:02:16 by oprosvir          #+#    #+#             */
-/*   Updated: 2024/03/04 16:35:22 by oprosvir         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:56:47 by oprosvir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
 #include "../libft/include/libft.h"
+#include "minitalk.h"
 
-void	handle_signal(int signal)
+void	handle_signal(int signum, siginfo_t *info, void *context)
 {
 	static int	bit_count = 0;
 	static char	current_char = 0;
+	int			client_pid;
 
-	if (signal == SIGUSR1)
+	(void)context;
+	client_pid = info->si_pid;
+	if (signum == SIGUSR1)
 		current_char |= (1 << bit_count);
 	bit_count++;
 	if (bit_count == 8)
@@ -31,13 +34,18 @@ void	handle_signal(int signal)
 
 int	main(void)
 {
+	struct sigaction	sa;
+
 	ft_printf("Server PID: %d\n", getpid());
 	ft_printf("Press [CTRL+C] to stop server\n");
 	ft_printf("----------------------------\n");
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = handle_signal;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
 	{
-		signal(SIGUSR1, handle_signal);
-		signal(SIGUSR2, handle_signal);
 		pause();
 	}
 	return (0);

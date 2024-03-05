@@ -6,7 +6,7 @@
 /*   By: oprosvir <oprosvir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 23:01:49 by oprosvir          #+#    #+#             */
-/*   Updated: 2024/03/04 17:08:28 by oprosvir         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:47:11 by oprosvir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	send_char(int server_pid, char c)
 			kill(server_pid, SIGUSR1);
 		else
 			kill(server_pid, SIGUSR2);
-		usleep(500);
+		usleep(600);
 		bit++;
 	}
 }
@@ -51,5 +51,6 @@ int	main(int argc, char *argv[])
 		send_char(server_pid, *msg);
 		msg++;
 	}
+	send_char(server_pid, '\n');
 	return (0);
 }
