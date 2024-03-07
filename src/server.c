@@ -6,7 +6,7 @@
 /*   By: oprosvir <oprosvir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 23:02:16 by oprosvir          #+#    #+#             */
-/*   Updated: 2024/03/05 15:56:47 by oprosvir         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:33:03 by oprosvir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,27 @@ void	handle_signal(int signum, siginfo_t *info, void *context)
 	if (signum == SIGUSR1)
 		current_char |= (1 << bit_count);
 	bit_count++;
-	kill(client_pid, SIGUSR1);
 	if (bit_count == 8)
 	{
 		write(1, &current_char, 1);
 		bit_count = 0;
 		current_char = 0;
 	}
+	kill(client_pid, SIGUSR1);
 }
 
 int	main(void)
 {
-	struct sigaction	sa;
+	struct sigaction	s_sigact;
 
 	ft_printf("Server PID: %d\n", getpid());
 	ft_printf("Press [CTRL+C] to stop server\n");
 	ft_printf("----------------------------\n");
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = handle_signal;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	s_sigact.sa_flags = SA_SIGINFO;
+	s_sigact.sa_sigaction = handle_signal;
+	sigemptyset(&s_sigact.sa_mask);
+	sigaction(SIGUSR1, &s_sigact, NULL);
+	sigaction(SIGUSR2, &s_sigact, NULL);
 	while (1)
 	{
 		pause();

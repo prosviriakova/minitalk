@@ -6,14 +6,14 @@
 /*   By: oprosvir <oprosvir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 23:01:49 by oprosvir          #+#    #+#             */
-/*   Updated: 2024/03/05 14:47:11 by oprosvir         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:27:50 by oprosvir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/include/libft.h"
 #include "minitalk.h"
 
-static g_ack_received = 0;
+static int	g_ack_received = 0;
 
 void	handle_ack(int signum)
 {
