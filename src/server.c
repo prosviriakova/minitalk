@@ -24,6 +24,7 @@ void	handle_signal(int signum, siginfo_t *info, void *context)
 	if (signum == SIGUSR1)
 		current_char |= (1 << bit_count);
 	bit_count++;
+	kill(client_pid, SIGUSR1);
 	if (bit_count == 8)
 	{
 		write(1, &current_char, 1);

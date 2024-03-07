@@ -13,18 +13,29 @@
 #include "../libft/include/libft.h"
 #include "minitalk.h"
 
+static g_ack_received = 0;
+
+void	handle_ack(int signum)
+{
+	(void)signum;
+	g_ack_received = 1;
+}
+
 void	send_char(int server_pid, char c)
 {
 	int	bit;
 
 	bit = 0;
+	signal(SIGUSR1, handle_ack);
 	while (bit < 8)
 	{
+		g_ack_received = 0;
 		if (c & (1 << bit))
 			kill(server_pid, SIGUSR1);
 		else
 			kill(server_pid, SIGUSR2);
-		usleep(600);
+		while (!g_ack_received)
+			pause();
 		bit++;
 	}
 }
