@@ -35,9 +35,10 @@ clean:
 	rm -f $(OBJS_CLIENT) $(OBJS_SERVER)
 
 fclean: clean
-	$(MAKE) -C $(LIBFT_PATH) fclean
-	rm -f $(CLIENT) $(SERVER)
+	rm -f $(CLIENT) $(SERVER) $(LIBFT)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus: all
+
+.PHONY: all clean fclean re bonus
