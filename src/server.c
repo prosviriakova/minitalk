@@ -6,12 +6,19 @@
 /*   By: oprosvir <oprosvir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 23:02:16 by oprosvir          #+#    #+#             */
-/*   Updated: 2024/03/07 17:33:03 by oprosvir         ###   ########.fr       */
+/*   Updated: 2024/03/10 13:10:32 by oprosvir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/include/libft.h"
 #include "minitalk.h"
+
+void	sigint_handler(int sig_num)
+{
+	(void)sig_num;
+	ft_printf("Received SIGINT signal, exiting...\n");
+	exit(EXIT_SUCCESS);
+}
 
 void	handle_signal(int signum, siginfo_t *info, void *context)
 {
@@ -45,9 +52,9 @@ int	main(void)
 	sigemptyset(&s_sigact.sa_mask);
 	sigaction(SIGUSR1, &s_sigact, NULL);
 	sigaction(SIGUSR2, &s_sigact, NULL);
+	signal(SIGINT, sigint_handler);
 	while (1)
 	{
 		pause();
 	}
-	return (0);
 }

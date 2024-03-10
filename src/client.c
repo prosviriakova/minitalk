@@ -6,7 +6,7 @@
 /*   By: oprosvir <oprosvir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 23:01:49 by oprosvir          #+#    #+#             */
-/*   Updated: 2024/03/09 17:51:45 by oprosvir         ###   ########.fr       */
+/*   Updated: 2024/03/10 13:12:35 by oprosvir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ int	main(int argc, char *argv[])
 		msg++;
 	}
 	send_char(server_pid, '\n');
-	return (0);
+	exit(EXIT_SUCCESS);
 }
