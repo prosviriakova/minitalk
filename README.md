@@ -19,7 +19,7 @@ The server displays its PID. Use this PID to send messages from the client:
 ./client <server_PID> "your message"
 ```
 ## Test
-My program can transmit over 1 million characters in under 30 seconds, supporting Unicode characters. It uses a global variable to receive acknowledgments from the server.
+My program can transmit over 1 million characters in under 30 seconds and support Unicode characters. It uses a global variable to receive acknowledgments from the server.
 
 To evaluate the execution time, run test.sh with:
 ```
